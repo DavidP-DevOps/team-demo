@@ -1,2 +1,2 @@
 # team-demo
-This is my first team change.
+This is the feature branch conflicting update.
