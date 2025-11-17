@@ -1,0 +1,40 @@
+name: Full Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: Development step
+        env:
+          DEV_SECRET: ${{ secrets.DEV_SECRET }}
+        run: |
+          echo "Running DEV environment"
+          echo "Dev secret: $DEV_SECRET"
+
+  stage:
+    runs-on: ubuntu-latest
+    needs: dev
+    environment: staging
+    steps:
+      - name: Staging step
+        env:
+          STAGE_SECRET: ${{ secrets.STAGE_SECRET }}
+        run: |
+          echo "Running STAGE environment"
+          echo "Stage secret: $STAGE_SECRET"
+
+  prod:
+    runs-on: ubuntu-latest
+    needs: stage
+    environment: production
+    steps:
+      - name: Production step
+        env:
+          PROD_SECRET: ${{ secrets.PROD_SECRET }}
+        run: |
+          echo "Running PRODUCTION environment"
+          echo "Prod secret: $PROD_SECRET"
