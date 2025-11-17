@@ -1,0 +1,32 @@
+name: Cache Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cache-example:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: demo-cache
+          key: demo-cache-${{ runner.os }}-v1
+
+      - name: Use cache
+        run: |
+          if [ -f demo-cache/info.txt ]; then
+            echo "Cache HIT"
+            echo "File content:"
+            cat demo-cache/info.txt
+          else
+            echo "Cache MISS - creating cache"
+            mkdir -p demo-cache
+            date > demo-cache/info.txt
+            echo "Created file with content:"
+            cat demo-cache/info.txt
