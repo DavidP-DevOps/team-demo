@@ -16,4 +16,5 @@ jobs:
         run: ls -la
 
       - name: Show commit SHA
-        run: echo "Current commit is: $GITHUB_SHA"
+        run: |
+          echo "Current commit is: $GITHUB_SHA"
