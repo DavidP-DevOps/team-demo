@@ -30,3 +30,4 @@ jobs:
             date > demo-cache/info.txt
             echo "Created file with content:"
             cat demo-cache/info.txt
+          fi
