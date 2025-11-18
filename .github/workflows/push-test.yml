@@ -1,0 +1,12 @@
+name: Push Test
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Push triggered
+        run: echo "This workflow ran because of a PUSH to main."
