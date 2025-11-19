@@ -1,0 +1,26 @@
+name: Manual Deploy Demo
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        type: choice
+        required: true
+        options:
+          - development
+          - staging
+          - production
+      note:
+        description: 'Deployment note'
+        required: false
+        type: string
+
+jobs:
+  show-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print chosen options
+        run: |
+          echo "Selected environment: ${{ github.event.inputs.environment }}"
+          echo "Note: ${{ github.event.inputs.note }}"
