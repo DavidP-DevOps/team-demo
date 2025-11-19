@@ -1,0 +1,27 @@
+name: Manual Environment Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        type: choice
+        required: true
+        options:
+          - development
+          - staging
+          - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Show selected environment
+        run: echo "Deploying to environment: ${{ github.event.inputs.environment }}"
+
+      - name: Use environment secret
+        env:
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+        run: |
+          echo "APP_SECRET value is: $APP_SECRET"
