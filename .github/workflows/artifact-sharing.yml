@@ -1,0 +1,48 @@
+name: Artifact Sharing Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create artifact
+        run: |
+          echo "Artifact generated at $(date)" > artifact.txt
+          cat artifact.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: artifact.txt
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Test artifact
+        run: |
+          echo "Testing artifact…"
+          cat artifact.txt
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+
+      - name: Deploy artifact
+        run: |
+          echo "Deploying artifact..."
+          cat artifact.txt
+          echo "Deployment complete!"
